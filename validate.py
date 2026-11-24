@@ -54,6 +54,14 @@ def main():
                                "phrasings never taught (4 of 6): 64/64 = 1.000",
                                "policy-compliant handling: 0/24 = 0.000",
                                "fullrun demo complete"])
+    expect("lesson19.lorarank", ["training rows: 288",
+                               "intent: 72/96 = 0.750",
+                               "the smallest sufficient rank: 2",
+                               "intent overall: 96/96 = 1.000",
+                               "phrasings never taught (4 of 6): 64/64 = 1.000",
+                               "policy-compliant handling: 0/24 = 0.000",
+                               "merged board == adapter board on every line: True",
+                               "lorarank demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
