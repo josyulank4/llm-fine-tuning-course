@@ -1,9 +1,12 @@
 """Lesson 11 - Curate the training set, keep the receipts.
 
-SCAFFOLD (l11-start): the raw export is assembled and step 1
-(dedupe) runs; the contradiction and stale-policy steps are not
-built yet and raise NotImplementedError - the finish state builds
-them.
+The desk's raw training export carries 314 rows: the 288 rows of the
+training split plus 26 defects that arrived with the export - exact
+duplicates, copies refiled under the wrong desk (contradictions), and
+rows written against the retired 14-day return window (stale policy).
+This demo cleans the export end to end, prints every removal with the
+defect that caused it, and reconciles the result against the frozen
+training split row for row.
 Run: python -m lesson11.datacurate
 """
 from __future__ import annotations
@@ -68,15 +71,42 @@ def dedupe(rows):
 
 
 def drop_contradictions(rows):
-    """Step 2: contradictions - NOT BUILT YET in this scaffold."""
-    raise NotImplementedError(
-        "contradiction step not built in the l11-start scaffold")
+    """Step 2: contradictions - the same text filed under two desks.
+    The corpus of record decides which filing is true."""
+    truth = dict(split_examples("train"))
+    by_text: dict[str, set] = {}
+    for text, label in rows:
+        by_text.setdefault(text, set()).add(label)
+    kept, removed = [], []
+    for text, label in rows:
+        if len(by_text[text]) > 1 and label != truth.get(text):
+            removed.append((text, label))
+        else:
+            kept.append((text, label))
+    print("step 2 - contradictions (one text, two desks):")
+    for text, label in removed:
+        print(f"  contradiction removed: filed as {label}, "
+              f"record says {truth[text]}")
+    print(f"  step 2 result: {len(removed)} removed, "
+          f"{len(kept)} rows remain")
+    return kept
 
 
 def drop_stale(rows):
-    """Step 3: stale policy - NOT BUILT YET in this scaffold."""
-    raise NotImplementedError(
-        "stale-policy step not built in the l11-start scaffold")
+    """Step 3: stale policy - rows that teach the retired 14-day
+    return window. Current policy is the only policy that ships."""
+    kept, removed = [], []
+    for text, label in rows:
+        if any(m in text for m in RETIRED_MARKERS):
+            removed.append((text, label))
+        else:
+            kept.append((text, label))
+    print("step 3 - stale policy (retired 14-day return window):")
+    for text, label in removed:
+        print(f"  stale removed: [{label}] {text[:64]}")
+    print(f"  step 3 result: {len(removed)} removed, "
+          f"{len(kept)} rows remain")
+    return kept
 
 
 def main() -> None:

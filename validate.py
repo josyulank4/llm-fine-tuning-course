@@ -37,6 +37,14 @@ def main():
                                "policy-compliant handling: 0/24 = 0.000",
                                "intent 0.750 | new phrasings 0.625 | policy 0.000",
                                "basegap demo complete"])
+    expect("lesson11.datacurate", ["raw training rows: 314",
+                               "step 1 result: 12 removed, 302 rows remain",
+                               "step 2 result: 8 removed, 294 rows remain",
+                               "step 3 result: 6 removed, 288 rows remain",
+                               "reconciliation: curated == training split of record: True (288 of 288 rows)",
+                               "frozen test intent, model trained on raw: 1.000",
+                               "frozen test intent, model trained on curated: 1.000",
+                               "datacurate demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
