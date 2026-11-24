@@ -45,6 +45,15 @@ def main():
                                "frozen test intent, model trained on raw: 1.000",
                                "frozen test intent, model trained on curated: 1.000",
                                "datacurate demo complete"])
+    expect("lesson15.fullrun", ["training rows: 288",
+                               "intent: 72/96 = 0.750",
+                               "after 288 rows: dev intent 1.000",
+                               "weights: base model carries 223 numbers",
+                               "weights written by the run: 311 of 322",
+                               "intent overall: 96/96 = 1.000",
+                               "phrasings never taught (4 of 6): 64/64 = 1.000",
+                               "policy-compliant handling: 0/24 = 0.000",
+                               "fullrun demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
