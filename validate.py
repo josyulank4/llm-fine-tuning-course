@@ -28,6 +28,15 @@ def main():
                                        "fully trained test accuracy: 1.000",
                                        "the base gap: 0.250",
                                        "lesson1 demo complete"])
+    expect("lesson7.basegap", ["base model on the frozen test split: 96 tickets",
+                               "intent overall: 72/96 = 0.750",
+                               "defect_report: 4/12",
+                               "confusion: defect_report read as invoice_copy x6",
+                               "phrasings the seed taught (2 of 6): 32/32 = 1.000",
+                               "phrasings never taught (4 of 6): 40/64 = 0.625",
+                               "policy-compliant handling: 0/24 = 0.000",
+                               "intent 0.750 | new phrasings 0.625 | policy 0.000",
+                               "basegap demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,

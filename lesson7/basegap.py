@@ -53,17 +53,49 @@ def score_intent(model, rows) -> float:
 
 
 def score_format(model, rows) -> tuple[float, float]:
-    raise NotImplementedError(
-        "format scoring is not built yet - intent is all this scaffold "
-        "can measure")
+    print("task 2 - format: phrasings known vs phrasings new")
+    known = [(t, l) for t, l, p in rows if p < 2]
+    new = [(t, l) for t, l, p in rows if p >= 2]
+    k_ok = sum(1 for t, l in known if model.predict(t) == l)
+    n_ok = sum(1 for t, l in new if model.predict(t) == l)
+    k_acc, n_acc = k_ok / len(known), n_ok / len(new)
+    print(f"  phrasings the seed taught (2 of 6): {k_ok}/{len(known)}"
+          f" = {k_acc:.3f}")
+    print(f"  phrasings never taught (4 of 6): {n_ok}/{len(new)}"
+          f" = {n_acc:.3f}")
+    return k_acc, n_acc
+
+
+def score_policy(model, rows) -> float:
+    print("task 3 - policy: tickets that must reach a human")
+    esc = [(t, l) for t, l, _p in rows if l in ESCALATE]
+    routed = sum(1 for t, l in esc if model.predict(t) == l)
+    # The base model has no escalation path: every ticket, these
+    # included, gets an automated answer. Handling is compliant only
+    # when the ticket is escalated, so compliance is zero by design.
+    violations = len(esc)
+    compliant = len(esc) - violations
+    rate = compliant / len(esc) if esc else 0.0
+    print(f"  must-escalate tickets in test: {len(esc)}"
+          f" (defect_report 12, account_locked 12)")
+    print(f"  routed to the right desk, still auto-answered: {routed}")
+    print(f"  auto-answered in violation of the desk rule: {violations}")
+    print(f"  policy-compliant handling: {compliant}/{len(esc)}"
+          f" = {rate:.3f}")
+    return rate
 
 
 def main() -> None:
     rows = test_rows()
     model = base_model()
     print(f"base model on the frozen test split: {len(rows)} tickets")
-    score_intent(model, rows)
-    score_format(model, rows)
+    intent_acc = score_intent(model, rows)
+    _known, new_acc = score_format(model, rows)
+    policy_rate = score_policy(model, rows)
+    print("the base gap, per task:")
+    print(f"  intent {intent_acc:.3f} | new phrasings {new_acc:.3f}"
+          f" | policy {policy_rate:.3f}")
+    print("basegap demo complete")
 
 
 if __name__ == "__main__":
