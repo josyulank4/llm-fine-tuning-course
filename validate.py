@@ -62,6 +62,15 @@ def main():
                                "policy-compliant handling: 0/24 = 0.000",
                                "merged board == adapter board on every line: True",
                                "lorarank demo complete"])
+    expect("lesson23.qloramath", ["training rows: 288",
+                               "intent: 72/96 = 0.750",
+                               "stored: 820 B of codes + 104 B of scales = 924 B",
+                               "weights moved by rounding: 153 of 1640",
+                               "quantized board == fp32 board on every line: True",
+                               "QLoRA r2 | 426 | 26.0% | 7740 B | 1.000",
+                               "intent overall: 96/96 = 1.000",
+                               "policy-compliant handling: 0/24 = 0.000",
+                               "qloramath demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
