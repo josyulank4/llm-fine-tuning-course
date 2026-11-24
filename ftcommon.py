@@ -137,7 +137,9 @@ def split_examples(split: str) -> list[tuple[str, str]]:
 
 
 # ---------------------------------------------------------------------------
-# Tokenizer. The trainable model arrives with the Lesson 1 stub.
+# Tokenizer + centroid model. The base model sees only the seed phrasings
+# (templates 0 and 1 of each intent, all fillers); fine-tuning lessons train
+# on the full training split. Same code path — only the data changes.
 # ---------------------------------------------------------------------------
 
 _STOPWORDS = {"i", "my", "the", "a", "an", "it", "is", "to", "for", "me",
@@ -146,3 +148,55 @@ _STOPWORDS = {"i", "my", "the", "a", "an", "it", "is", "to", "for", "me",
 
 def tokenize(text: str) -> set[str]:
     return {t for t in re.findall(r"[a-z]+", text.lower()) if t not in _STOPWORDS}
+
+
+def seed_examples() -> list[tuple[str, str]]:
+    """The generic seed the base model was trained on: templates 0-1 only."""
+    seed: list[tuple[str, str]] = []
+    for intent in INTENTS:
+        for template in _TEMPLATES[intent][:2]:
+            for filler in _FILLERS:
+                seed.append((template.format(item=filler), intent))
+    return seed
+
+
+class CentroidModel:
+    """Bag-of-words centroid classifier — the repo's trainable toy model."""
+
+    def __init__(self) -> None:
+        self.centroids: dict[str, dict[str, float]] = {}
+
+    def train(self, examples: list[tuple[str, str]]) -> "CentroidModel":
+        sums: dict[str, dict[str, float]] = {i: {} for i in INTENTS}
+        counts: dict[str, int] = {i: 0 for i in INTENTS}
+        for text, label in examples:
+            counts[label] += 1
+            for tok in tokenize(text):
+                sums[label][tok] = sums[label].get(tok, 0.0) + 1.0
+        self.centroids = {
+            label: {t: v / counts[label] for t, v in sums[label].items()}
+            for label in INTENTS
+        }
+        return self
+
+    def predict(self, text: str) -> str:
+        toks = tokenize(text)
+        best_label, best_score = INTENTS[0], -1.0
+        for label in INTENTS:
+            centroid = self.centroids.get(label, {})
+            dot = sum(centroid.get(t, 0.0) for t in toks)
+            norm = math.sqrt(sum(v * v for v in centroid.values())) or 1.0
+            score = dot / (norm * (math.sqrt(len(toks)) or 1.0))
+            if score > best_score:
+                best_label, best_score = label, score
+        return best_label
+
+
+def accuracy(model: CentroidModel, examples: list[tuple[str, str]]) -> float:
+    correct = sum(1 for text, label in examples if model.predict(text) == label)
+    return correct / len(examples) if examples else 0.0
+
+
+def base_model() -> CentroidModel:
+    """The shipped base model: trained on the generic seed only."""
+    return CentroidModel().train(seed_examples())
