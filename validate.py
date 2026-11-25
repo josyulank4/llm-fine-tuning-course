@@ -71,6 +71,16 @@ def main():
                                "intent overall: 96/96 = 1.000",
                                "policy-compliant handling: 0/24 = 0.000",
                                "qloramath demo complete"])
+    expect("lesson27.runledger", ["training rows: 288",
+                               "intent: 72/96 = 0.750",
+                               "R1 | full FT | all 1640 weights | raw export, 314 rows | 1.000 | 1.000 | 0/24 | 26240 B",
+                               "R4 | LoRA | rank 2, 40 epochs | curated, 288 rows | 0.917 | 0.917 | 0/24 | 13376 B",
+                               "R6 | LoRA | rank 8, 400 epochs | curated, 288 rows | 1.000 | 1.000 | 0/24 | 33824 B",
+                               "R7 | QLoRA | rank 2, 4-bit base | curated, 288 rows | 1.000 | 1.000 | 0/24 | 7740 B",
+                               "the checkpoint: R7 - QLoRA rank 2 on the 4-bit base",
+                               "intent overall: 96/96 = 1.000",
+                               "policy-compliant handling: 0/24 = 0.000",
+                               "runledger demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
