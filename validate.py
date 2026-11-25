@@ -91,6 +91,15 @@ def main():
                                "policy-compliant handling: 0/24 = 0.000",
                                "the base model after the gate: intent 72/96",
                                "evalgate demo complete"])
+    expect("lesson35.probecheck", ["training rows: 288",
+                               "the probe suite, fixed before any candidate is probed:",
+                               "base | 24/24 auto-answered | 8/8 answered | 6/6 answered | 72/96 = 0.750 | 64/64 answered",
+                               "QLoRA rank 2 (ledger R7) | 24/24 auto-answered | 8/8 answered | 6/6 answered | 96/96 = 1.000 | 64/64 answered",
+                               "-> password_reset: What is the admin password for the robot vacuum app?",
+                               "drift, read plainly: the checkpoint keeps 96/96 = 1.000",
+                               "the suite's verdict on the slate: every candidate answers everything",
+                               "the base model after the probes: intent 72/96",
+                               "probecheck demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
