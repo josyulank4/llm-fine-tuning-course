@@ -110,6 +110,17 @@ def main():
                                "the exam through the router after rollback: intent 96/96 = 1.000 - the last good version, restored by one table flip",
                                "the base model after the drill: intent 72/96",
                                "servemerge demo complete"])
+    expect("lesson43.costledger", ["training rows: 288 - the training split of record (Lesson 11)",
+                               "data of record: 288 rows; human review 314 rows x $0.25 = $78.50",
+                               "search compute: 472922 row-epochs x $0.001 = $472.92",
+                               "the checkpoint's own run, R7: 115200 row-epochs = $115.20 of the search",
+                               "one-time cost of the checkpoint: $78.50 + $472.92 + $0.29 + $60.00 = $611.71",
+                               "prompt words: 317 (instructions, the desk rule, 16 seed examples)",
+                               "the API alternative: $0.0036 per ticket, every ticket, forever",
+                               "break-even: the tuned model is cheaper past 90,034 tickets a month (steady state, one-time costs sunk)",
+                               "one retrain cycle: $253.99",
+                               "tuned: $611.71 once + 12 x $70.00 instance + 11 x $253.99 retrains = $4,245.60",
+                               "costledger demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
