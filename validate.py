@@ -100,6 +100,16 @@ def main():
                                "the suite's verdict on the slate: every candidate answers everything",
                                "the base model after the probes: intent 72/96",
                                "probecheck demo complete"])
+    expect("lesson39.servemerge", ["training rows: 288 - the training split of record (Lesson 11)",
+                               "merged board == adapter board on every line: True",
+                               "merged predictions == adapter predictions: 96/96 exam rows",
+                               "adapter form: 924 B quantized base + 1704 B adapter (426 numbers) = 2628 B, two artifacts",
+                               "merged, re-quantized: 924 B, one artifact - the form this drill serves",
+                               "canary on v2 checkpoint (merged): 96/96 = 1.000 - clears the 0.99 bar",
+                               "canary on v3 rank-1 merge: 89/96 = 0.927 - BELOW the 0.99 bar",
+                               "the exam through the router after rollback: intent 96/96 = 1.000 - the last good version, restored by one table flip",
+                               "the base model after the drill: intent 72/96",
+                               "servemerge demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
