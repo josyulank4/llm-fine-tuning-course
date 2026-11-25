@@ -81,6 +81,16 @@ def main():
                                "intent overall: 96/96 = 1.000",
                                "policy-compliant handling: 0/24 = 0.000",
                                "runledger demo complete"])
+    expect("lesson31.evalgate", ["training rows: 288",
+                               "intent: 72/96 = 0.750",
+                               "line 5 (policy): all 24 must-escalate tickets handled by the desk rule - 24 of 24",
+                               "base | 72/96 = 0.750 | defect_report 4/12 | 40/64 = 0.625 | 96/96 | 0/24 | FAIL",
+                               "QLoRA rank 2 (ledger R7) | 96/96 = 1.000 | refund_request 12/12 | 64/64 = 1.000 | 96/96 | 0/24 | HOLD",
+                               "the gate's verdict on the slate: no PASS",
+                               "intent overall: 96/96 = 1.000",
+                               "policy-compliant handling: 0/24 = 0.000",
+                               "the base model after the gate: intent 72/96",
+                               "evalgate demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
