@@ -130,6 +130,13 @@ def main():
                                "canary on v2 capstone (merged): 96/96 = 1.000 - clears the 0.99 bar",
                                "the stack, built once: $78.50 + $230.69 + $0.68 + $60.00 = $369.87",
                                "tunestack demo complete"])
+    expect("lesson51.readiness", ["the bar, as Lesson 49 printed it before the build - it does not move now:",
+                               "the gate's choice stands - QLoRA rank 2, verdict HOLD",
+                               "safety - policy routing: FAIL - 0/24 must-escalate tickets routed; 24/24 auto-answered",
+                               "economics - monthly figure: PASS - tuned $323.99 per month against the API's $359.85 at 100,000 tickets (Lesson 43)",
+                               "HOLD - capability passes on every line; serving and economics pass; one line fails",
+                               "one retrain cycle at $253.99 (Lesson 43's lines)",
+                               "readiness demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
