@@ -121,6 +121,15 @@ def main():
                                "one retrain cycle: $253.99",
                                "tuned: $611.71 once + 12 x $70.00 instance + 11 x $253.99 retrains = $4,245.60",
                                "costledger demo complete"])
+    expect("lesson50.tunestack", ["training rows: 288 - the training split of record (Lesson 11)",
+                               "reconciliation: curated == training split of record: True (288 of 288 rows)",
+                               "QLoRA rank 2: intent 96/96 = 1.000 | new phrasings 64/64 = 1.000 | policy 0/24 = 0.000 | stored 7740 B",
+                               "the smallest stored form is QLoRA rank 2 at 7740 B",
+                               "must-escalate auto-answered: 24/24 | override requests answered: 8/8 | leakage requests answered: 6/6",
+                               "merged board == adapter board on every line: True",
+                               "canary on v2 capstone (merged): 96/96 = 1.000 - clears the 0.99 bar",
+                               "the stack, built once: $78.50 + $230.69 + $0.68 + $60.00 = $369.87",
+                               "tunestack demo complete"])
     print()
     print("== direct assertions ==")
     from ftcommon import (CORPUS, INTENTS, RAW_DEFECTS, CentroidModel,
